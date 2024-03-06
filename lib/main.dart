@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gp2/src/features/authentication/screens/login_screen.dart';
+import 'package:gp2/src/features/authentication/screens/spalsh_screen.dart';
 
 void main() {
   runApp(const ForcastingApp());
@@ -11,8 +12,7 @@ class ForcastingApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
-    );
+        debugShowCheckedModeBanner: false, home: SplashScreen() //LoginScreen(),
+        );
   }
 }

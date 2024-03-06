@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gp2/misc/validators.dart';
 import 'package:gp2/src/common_widgets/custom_button.dart';
-import 'package:gp2/src/common_widgets/custom_divider.dart';
+import 'package:gp2/src/common_widgets/custom_textfield.dart';
+import 'package:gp2/src/common_widgets/gradient_divider.dart';
 import 'package:gp2/src/features/authentication/screens/forget_password_otp.dart';
 import 'package:gp2/src/features/authentication/screens/signup_screen.dart';
 
@@ -38,54 +39,41 @@ class _LoginFormState extends State<LoginForm> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.04),
-              child: TextFormField(
-                textInputAction: TextInputAction.next,
-                validator: validateEmail,
-                controller: emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  labelStyle: TextStyle(
-                    color: Color(0xff076092),
-                    fontSize: 18,
-                  ),
-                  border: InputBorder.none,
-                ),
-              ),
+            CustomTextFormField(
+              labelText: 'Email',
+              validator: validateEmail,
+              controller: emailController,
+              keyboardType: TextInputType.text,
             ),
-            const CustomDivider(),
+
+            const GradientDivider(),
+            //const CustomDivider(),
             const SizedBox(height: 20.0),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.04,
-              ),
-              child: TextFormField(
-                textInputAction: TextInputAction.done,
-                validator: validatePassword,
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  labelStyle: TextStyle(
-                    color: Color(0xff076092),
-                    fontSize: 18,
-                  ),
-                  border: InputBorder.none,
-                ),
-              ),
+            CustomTextFormField(
+              obscureText: true,
+              labelText: 'Password',
+              validator: validatePassword,
+              controller: passwordController,
+              keyboardType: TextInputType.text,
+              
             ),
-            const CustomDivider(),
-            ButtonBar(
-              alignment: MainAxisAlignment.end,
+
+            const GradientDivider(),
+            //const CustomDivider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => OTPScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const OTPScreen()),
                     );
                   },
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                  ),
                   child: const Text(
                     'Forgot Password?',
                     style: TextStyle(
@@ -100,25 +88,12 @@ class _LoginFormState extends State<LoginForm> {
               ],
             ),
             const SizedBox(
-              height: 16,
+              height: 32,
             ),
             SizedBox(
               height: 30,
-              width: 150,
-              child: CustomButton(
-                  onTap: () {}, text: 'Sign in'), // ElevatedButton(
-              //   onPressed: () {},
-              //   style: ElevatedButton.styleFrom(
-              //     backgroundColor: const Color(0xff1FDEF5),
-              //     textStyle: const TextStyle(color: Colors.black),
-              //     shape: RoundedRectangleBorder(
-              //         borderRadius: BorderRadius.circular(5),),
-              //   ),
-              //   child: const Text(
-              //     'Sign in',
-              //     style: TextStyle(color: Colors.black, fontSize: 14),
-              //   ),
-              // ),
+              width: 140,
+              child: CustomButton(onTap: () {}, text: 'Sign in'),
             ),
             const SizedBox(
               height: 14,
@@ -128,7 +103,7 @@ class _LoginFormState extends State<LoginForm> {
               style: TextStyle(color: Colors.white, fontSize: 14),
             ),
             const SizedBox(
-              height: 40,
+              height: 60,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -141,7 +116,8 @@ class _LoginFormState extends State<LoginForm> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => RegisterScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const RegisterScreen()),
                     );
                   },
                   child: const Text(
