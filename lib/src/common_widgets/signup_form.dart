@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gp2/config.dart';
 import 'package:gp2/misc/validators.dart';
+import 'package:gp2/services/api_service.dart';
 import 'package:gp2/src/common_widgets/custom_button.dart';
 import 'package:gp2/src/common_widgets/custom_textfield.dart';
 import 'package:gp2/src/common_widgets/gradient_divider.dart';
+import 'package:gp2/src/features/authentication/models/login_request_model.dart';
+import 'package:gp2/src/features/authentication/models/register_request_model.dart';
+import 'package:snippet_coder_utils/FormHelper.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -18,6 +23,8 @@ class _RegisterFormState extends State<RegisterForm> {
   late TextEditingController confirmpasswordController;
   late TextEditingController emailController;
   late TextEditingController phoneController;
+  GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
+  bool isApiCallProcess = false;
   @override
   void initState() {
     super.initState();
@@ -112,11 +119,77 @@ class _RegisterFormState extends State<RegisterForm> {
             SizedBox(
               height: 30,
               width: 140,
-              child: CustomButton(onTap: () {}, text: 'Sign up'),
+              child: CustomButton(
+                  onTap: () {
+                    if (validateAndSave()) {
+                      setState(() {
+                        isApiCallProcess = true;
+                      });
+
+                      String email = emailController.text;
+                      String password = passwordController.text;
+                      String firstName = firstNameController.text;
+                      String lastName = lastNameController.text;
+                      String confirmPassword = confirmpasswordController.text;
+                      int phoneNumber = int.parse(phoneController.text);
+
+                      RegisterRequestModel model = RegisterRequestModel(
+                          firstName: firstName,
+                          lastName: lastName,
+                          email: email,
+                          phoneNumber: phoneNumber,
+                          password: password,
+                          confirmPassword: confirmPassword);
+
+                      APIService.register(model).then(
+                        (response) {
+                          setState(() {
+                            isApiCallProcess = false;
+                          });
+
+                          if (response.data != null) {
+                            FormHelper.showSimpleAlertDialog(
+                              context,
+                              Config.appName,
+                              "Registration Successful. Please login to the account",
+                              "OK",
+                              () {
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  '/',
+                                  (route) => false,
+                                );
+                              },
+                            );
+                          } else {
+                            FormHelper.showSimpleAlertDialog(
+                              context,
+                              Config.appName,
+                              response.message,
+                              "OK",
+                              () {
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          }
+                        },
+                      );
+                    }
+                  },
+                  text: 'Sign up'),
             ),
           ],
         ),
       ),
     );
+  }
+
+  bool validateAndSave() {
+    final form = globalFormKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
   }
 }

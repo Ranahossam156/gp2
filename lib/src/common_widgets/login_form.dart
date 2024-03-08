@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gp2/config.dart';
 import 'package:gp2/misc/validators.dart';
+import 'package:gp2/services/api_service.dart';
 import 'package:gp2/src/common_widgets/custom_button.dart';
 import 'package:gp2/src/common_widgets/custom_textfield.dart';
 import 'package:gp2/src/common_widgets/gradient_divider.dart';
+import 'package:gp2/src/features/authentication/models/login_request_model.dart';
 import 'package:gp2/src/features/authentication/screens/forget_password_otp.dart';
 import 'package:gp2/src/features/authentication/screens/signup_screen.dart';
+import 'package:snippet_coder_utils/FormHelper.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -16,6 +20,8 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   late TextEditingController emailController;
   late TextEditingController passwordController;
+  GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
+  bool isApiCallProcess = false;
   @override
   void initState() {
     super.initState();
@@ -55,7 +61,6 @@ class _LoginFormState extends State<LoginForm> {
               validator: validatePassword,
               controller: passwordController,
               keyboardType: TextInputType.text,
-              
             ),
 
             const GradientDivider(),
@@ -93,7 +98,47 @@ class _LoginFormState extends State<LoginForm> {
             SizedBox(
               height: 30,
               width: 140,
-              child: CustomButton(onTap: () {}, text: 'Sign in'),
+              child: CustomButton(
+                  onTap: () {
+                    if (validateAndSave()) {
+                      setState(() {
+                        isApiCallProcess = true;
+                      });
+
+                      String email = emailController.text;
+                      String password = passwordController.text;
+
+                      LoginRequestModel model =
+                          LoginRequestModel(email: email, password: password);
+
+                      APIService.login(model).then(
+                        (response) {
+                          setState(() {
+                            isApiCallProcess = false;
+                          });
+
+                          if (response) {
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/home',
+                              (route) => false,
+                            );
+                          } else {
+                            FormHelper.showSimpleAlertDialog(
+                              context,
+                              Config.appName,
+                              "Invalid Username/Password !!",
+                              "OK",
+                              () {
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          }
+                        },
+                      );
+                    }
+                  },
+                  text: 'Sign in'),
             ),
             const SizedBox(
               height: 14,
@@ -131,5 +176,14 @@ class _LoginFormState extends State<LoginForm> {
         ),
       ),
     );
+  }
+
+  bool validateAndSave() {
+    final form = globalFormKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
   }
 }
