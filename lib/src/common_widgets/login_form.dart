@@ -100,44 +100,44 @@ class _LoginFormState extends State<LoginForm> {
               width: 140,
               child: CustomButton(
                   onTap: () {
-                    if (validateAndSave()) {
-                      setState(() {
-                        isApiCallProcess = true;
-                      });
+                  //   if (validateAndSave()) {
+                  //     setState(() {
+                  //       isApiCallProcess = true;
+                  //     });
 
-                      String email = emailController.text;
-                      String password = passwordController.text;
+                  //     String email = emailController.text;
+                  //     String password = passwordController.text;
 
-                      LoginRequestModel model =
-                          LoginRequestModel(email: email, password: password);
+                  //     LoginRequestModel model =
+                  //         LoginRequestModel(email: email, password: password);
 
-                      APIService.login(model).then(
-                        (response) {
-                          setState(() {
-                            isApiCallProcess = false;
-                          });
+                  //     APIService.login(model).then(
+                  //       (response) {
+                  //         setState(() {
+                  //           isApiCallProcess = false;
+                  //         });
 
-                          if (response) {
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              '/home',
-                              (route) => false,
-                            );
-                          } else {
-                            FormHelper.showSimpleAlertDialog(
-                              context,
-                              Config.appName,
-                              "Invalid Username/Password !!",
-                              "OK",
-                              () {
-                                Navigator.of(context).pop();
-                              },
-                            );
-                          }
-                        },
-                      );
-                    }
-                  },
+                  //         if (response) {
+                  //           Navigator.pushNamedAndRemoveUntil(
+                  //             context,
+                  //             '/home',
+                  //             (route) => false,
+                  //           );
+                  //         } else {
+                  //           FormHelper.showSimpleAlertDialog(
+                  //             context,
+                  //             Config.appName,
+                  //             "Invalid Username/Password !!",
+                  //             "OK",
+                  //             () {
+                  //               Navigator.of(context).pop();
+                  //             },
+                  //           );
+                  //         }
+                  //       },
+                  //     );
+                  //   }
+                   },
                   text: 'Sign in'),
             ),
             const SizedBox(
@@ -178,12 +178,12 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  bool validateAndSave() {
-    final form = globalFormKey.currentState;
-    if (form!.validate()) {
-      form.save();
-      return true;
-    }
-    return false;
-  }
+  // bool validateAndSave() {
+  //   final form = globalFormKey.currentState;
+  //   if (form!.validate()) {
+  //     form.save();
+  //     return true;
+  //   }
+  //   return false;
+  // }
 }

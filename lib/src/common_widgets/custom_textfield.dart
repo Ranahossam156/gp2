@@ -27,7 +27,7 @@ class CustomTextFormField extends StatelessWidget {
         textInputAction: TextInputAction.next,
         obscureText: obscureText,
         validator: validator, // Update here
-        cursorColor: const Color.fromARGB(255, 2, 98, 109),
+        cursorColor: Color(0xff076092),
         controller: controller,
         keyboardType: keyboardType,
         decoration: InputDecoration(

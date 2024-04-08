@@ -121,60 +121,60 @@ class _RegisterFormState extends State<RegisterForm> {
               width: 140,
               child: CustomButton(
                   onTap: () {
-                    if (validateAndSave()) {
-                      setState(() {
-                        isApiCallProcess = true;
-                      });
 
-                      String email = emailController.text;
-                      String password = passwordController.text;
-                      String firstName = firstNameController.text;
-                      String lastName = lastNameController.text;
-                      String confirmPassword = confirmpasswordController.text;
-                      int phoneNumber = int.parse(phoneController.text);
+                    //   setState(() {
+                    //     isApiCallProcess = true;
+                    //   });
 
-                      RegisterRequestModel model = RegisterRequestModel(
-                          firstName: firstName,
-                          lastName: lastName,
-                          email: email,
-                          phoneNumber: phoneNumber,
-                          password: password,
-                          confirmPassword: confirmPassword);
+                    //   String email = emailController.text;
+                    //   String password = passwordController.text;
+                    //   String firstName = firstNameController.text;
+                    //   String lastName = lastNameController.text;
+                    //   String confirmPassword = confirmpasswordController.text;
+                    //   int phoneNumber = int.parse(phoneController.text);
 
-                      APIService.register(model).then(
-                        (response) {
-                          setState(() {
-                            isApiCallProcess = false;
-                          });
+                    //   RegisterRequestModel model = RegisterRequestModel(
+                    //       firstName: firstName,
+                    //       lastName: lastName,
+                    //       email: email,
+                    //       phoneNumber: phoneNumber,
+                    //       password: password,
+                    //       confirmPassword: confirmPassword);
 
-                          if (response.data != null) {
-                            FormHelper.showSimpleAlertDialog(
-                              context,
-                              Config.appName,
-                              "Registration Successful. Please login to the account",
-                              "OK",
-                              () {
-                                Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  '/',
-                                  (route) => false,
-                                );
-                              },
-                            );
-                          } else {
-                            FormHelper.showSimpleAlertDialog(
-                              context,
-                              Config.appName,
-                              response.message,
-                              "OK",
-                              () {
-                                Navigator.of(context).pop();
-                              },
-                            );
-                          }
-                        },
-                      );
-                    }
+                    //   APIService.register(model).then(
+                    //     (response) {
+                    //       setState(() {
+                    //         isApiCallProcess = false;
+                    //       });
+
+                    //       if (response.data != null) {
+                    //         FormHelper.showSimpleAlertDialog(
+                    //           context,
+                    //           Config.appName,
+                    //           "Registration Successful. Please login to the account",
+                    //           "OK",
+                    //           () {
+                    //             Navigator.pushNamedAndRemoveUntil(
+                    //               context,
+                    //               '/',
+                    //               (route) => false,
+                    //             );
+                    //           },
+                    //         );
+                    //       } else {
+                    //         FormHelper.showSimpleAlertDialog(
+                    //           context,
+                    //           Config.appName,
+                    //           response.message,
+                    //           "OK",
+                    //           () {
+                    //             Navigator.of(context).pop();
+                    //           },
+                    //         );
+                    //       }
+                    //     },
+                    //   );
+                    // }
                   },
                   text: 'Sign up'),
             ),
