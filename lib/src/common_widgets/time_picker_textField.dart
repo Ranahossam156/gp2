@@ -41,9 +41,9 @@ class _TimePickerTextFieldState extends State<TimePickerTextField> {
         : '';
 
     // Calculate the padding for the text field
-    EdgeInsetsGeometry padding = EdgeInsets.symmetric(
-      horizontal: MediaQuery.of(context).size.width * 0.04,
-    );
+    // EdgeInsetsGeometry padding = EdgeInsets.symmetric(
+    //   horizontal: MediaQuery.of(context).size.width * 0.04,
+    // );
 
     return Column(
       children: [
@@ -53,7 +53,7 @@ class _TimePickerTextFieldState extends State<TimePickerTextField> {
             labelText: 'Select Time',
             border: InputBorder.none,
             labelStyle: const TextStyle(color: Color(0xff076092)),
-            contentPadding: padding,
+            //contentPadding: padding,
             suffixIcon: IconButton(
               icon: const Icon(Icons.access_time, color: Color(0xff076092)),
               onPressed: () {

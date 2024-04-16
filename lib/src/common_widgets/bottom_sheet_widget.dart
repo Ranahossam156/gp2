@@ -4,12 +4,21 @@ import 'package:gp2/src/common_widgets/date_picker_text_field.dart';
 import 'package:gp2/src/common_widgets/forecast_button.dart';
 import 'package:gp2/src/common_widgets/gradient_divider.dart';
 import 'package:gp2/src/common_widgets/time_picker_textField.dart';
+import 'package:gp2/src/common_widgets/map3.dart';
 
-class BottomSheetWidget extends StatelessWidget {
+class BottomSheetWidget extends StatefulWidget {
+  @override
+  State<BottomSheetWidget> createState() => _BottomSheetWidgetState();
+}
+
+class _BottomSheetWidgetState extends State<BottomSheetWidget> {
+  String _pickedLocation = '';
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       // Wrap with ListView
+      //physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true, // Set shrinkWrap to true
       padding: const EdgeInsets.all(16.0),
       children: <Widget>[
@@ -24,10 +33,15 @@ class BottomSheetWidget extends StatelessWidget {
             border: InputBorder.none,
             suffixIcon: IconButton(
               icon: const Icon(Icons.location_on, color: Color(0xff076092)),
-              onPressed: () {},
+              onPressed: () {
+                _openMapPage(context);
+              },
             ),
           ),
-          onTap: () {},
+          controller: TextEditingController(text: _pickedLocation),
+          onTap: () {
+            _openMapPage(context);
+          },
         ),
         const GradientDivider(),
         // const TextField(
@@ -39,23 +53,46 @@ class BottomSheetWidget extends StatelessWidget {
         DatePickerTextField(),
         const SizedBox(height: 16.0),
         TimePickerTextField(),
-        const SizedBox(height: 50.0),
-        SizedBox(
-          width: 50, // Adjust the width here
-          child: const ForecastButton(),
-        ),
+        const SizedBox(height: 50.0), // Adjust the height here
+        const ForecastButton(),
         const SizedBox(height: 16.0),
       ],
     );
   }
 
-  // void _showBottomSheet(BuildContext context) {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     isScrollControlled: true,
-  //     builder: (BuildContext context) {
-  //       return CustomButton(text: 'Forecast', onTap: () {});
-  //     },
-  //   );
-  // }
+  void _openMapPage(BuildContext context) async {
+    final pickedAddress = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Map3(
+          onAddressPicked: (address) {
+            setState(() {
+              _pickedLocation = address;
+            });
+          },
+        ),
+      ),
+    );
+
+    // Handle the picked address returned from Map3
+    if (pickedAddress != null) {
+      setState(() {
+        _pickedLocation = pickedAddress;
+      });
+    }
+  }
 }
+// void _openMapPage(BuildContext context) async {
+//   final pickedAddress = await Navigator.push(
+//     context,
+//     MaterialPageRoute(
+//       builder: (context) => Map3(
+//         onAddressPicked: (address) {
+//           // Handle the picked address here
+//         },
+//       ),
+//     ),
+//   );
+//
+//   // Handle the picked address returned from Map3
+// }
