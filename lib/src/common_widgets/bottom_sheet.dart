@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:gp2/src/common_widgets/forecast_button.dart';
 
-class BottomSheetWidget extends StatelessWidget {
+class BottomSheetWidget3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

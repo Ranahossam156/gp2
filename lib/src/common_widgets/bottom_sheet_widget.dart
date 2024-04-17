@@ -3,6 +3,8 @@ import 'package:gp2/src/common_widgets/custom_button.dart';
 import 'package:gp2/src/common_widgets/date_picker_text_field.dart';
 import 'package:gp2/src/common_widgets/forecast_button.dart';
 import 'package:gp2/src/common_widgets/gradient_divider.dart';
+import 'package:gp2/src/common_widgets/map.dart';
+import 'package:gp2/src/common_widgets/map4.dart';
 import 'package:gp2/src/common_widgets/time_picker_textField.dart';
 import 'package:gp2/src/common_widgets/map3.dart';
 
@@ -64,7 +66,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
     final pickedAddress = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => Map3(
+        builder: (context) => Map5(
           onAddressPicked: (address) {
             setState(() {
               _pickedLocation = address;
