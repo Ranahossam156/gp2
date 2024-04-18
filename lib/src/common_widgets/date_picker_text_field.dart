@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gp2/src/common_widgets/custom_divider.dart';
 import 'package:gp2/src/common_widgets/gradient_divider.dart';
-import 'package:intl/intl.dart'; // Import the intl package for date formatting
+import 'package:intl/intl.dart';
+
+import '../../constants.dart'; // Import the intl package for date formatting
 
 class DatePickerTextField extends StatefulWidget {
   @override
@@ -20,20 +22,21 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(primary: const Color(0xff076092)),
-            buttonTheme: ButtonThemeData(
+            colorScheme: const ColorScheme.light(primary: Constants.primaryColor),
+            buttonTheme: const  ButtonThemeData(
               textTheme: ButtonTextTheme.primary,
-              colorScheme: ColorScheme.light(primary: const Color(0xff076092)),
+              colorScheme: ColorScheme.light(primary: Constants.primaryColor),
             ),
           ),
           child: child!,
         );
       },
     );
-    if (picked != null && picked != _selectedDate)
+    if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
       });
+    }
   }
 
   @override
@@ -49,7 +52,7 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
           decoration: InputDecoration(
             labelText: 'Pickup date',
             labelStyle: const TextStyle(
-              color: Color(0xff076092),
+              color: Constants.primaryColor,
               fontSize: 18,
             ),
             // contentPadding: EdgeInsets.only(
@@ -57,7 +60,7 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
             //     right: MediaQuery.of(context).size.width * 0.04),
             border: InputBorder.none,
             suffixIcon: IconButton(
-              icon: const Icon(Icons.calendar_today, color: Color(0xff076092)),
+              icon: const Icon(Icons.calendar_today, color: Constants.primaryColor),
               onPressed: () {
                 _selectDate(context);
               },

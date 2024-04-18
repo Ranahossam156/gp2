@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gp2/src/common_widgets/bottom_sheet_widget.dart';
 import 'package:location_picker_flutter_map/location_picker_flutter_map.dart';
 
+import '../../constants.dart';
+
 class Map4 extends StatefulWidget {
   final Function(String) onAddressPicked;
   const Map4({Key? key, required this.onAddressPicked}) : super(key: key);
@@ -23,7 +25,7 @@ class _Map4State extends State<Map4> {
             showCurrentLocationPointer: false,
             markerIcon: const Icon(
               Icons.location_pin,
-              color: Color(0xff076092),
+              color: Constants.primaryColor,
             ),
             selectLocationButtonStyle: ButtonStyle(
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -32,7 +34,13 @@ class _Map4State extends State<Map4> {
                 ),
               ),
               backgroundColor:
-                  MaterialStateProperty.all<Color>(Color(0xff076092)),
+                  MaterialStateProperty.all<Color>(Constants.primaryColor),
+              // minimumSize: MaterialStateProperty.all<Size>(
+              //   Size(50, 50), // Set the desired width and height
+              // ),
+              fixedSize: MaterialStateProperty.all<Size>(
+                Size(50, 50), // Set the desired width and height
+              ),
             ),
             selectedLocationButtonTextstyle:
                 const TextStyle(fontSize: 18, color: Colors.white),
@@ -42,7 +50,7 @@ class _Map4State extends State<Map4> {
             maxZoomLevel: 16,
             loadingWidget: const CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(
-                  Color(0xff076092)), // Set the color here
+                  Constants.primaryColor), // Set the color here
             ),
             trackMyPosition: true,
             onError: (e) => print(e),

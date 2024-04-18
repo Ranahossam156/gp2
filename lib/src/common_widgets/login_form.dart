@@ -5,6 +5,7 @@ import 'package:gp2/services/api_service.dart';
 import 'package:gp2/src/common_widgets/custom_button.dart';
 import 'package:gp2/src/common_widgets/custom_textfield.dart';
 import 'package:gp2/src/common_widgets/gradient_divider.dart';
+import 'package:gp2/src/features/authentication/screens/forcasting_screen.dart';
 import 'package:gp2/src/features/authentication/models/login_request_model.dart';
 import 'package:gp2/src/features/authentication/screens/forget_password_otp.dart';
 import 'package:gp2/src/features/authentication/screens/signup_screen.dart';
@@ -100,6 +101,12 @@ class _LoginFormState extends State<LoginForm> {
               width: 140,
               child: CustomButton(
                   onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ForecastingScreen()),
+                    );
+
                   //   if (validateAndSave()) {
                   //     setState(() {
                   //       isApiCallProcess = true;

@@ -8,6 +8,8 @@ import 'package:gp2/src/common_widgets/map4.dart';
 import 'package:gp2/src/common_widgets/time_picker_textField.dart';
 import 'package:gp2/src/common_widgets/map3.dart';
 
+import '../../constants.dart';
+
 class BottomSheetWidget extends StatefulWidget {
   @override
   State<BottomSheetWidget> createState() => _BottomSheetWidgetState();
@@ -29,12 +31,12 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
           decoration: InputDecoration(
             labelText: 'Pickup Location',
             labelStyle: const TextStyle(
-              color: Color(0xff076092),
+              color: Constants.primaryColor,
               fontSize: 18,
             ),
             border: InputBorder.none,
             suffixIcon: IconButton(
-              icon: const Icon(Icons.location_on, color: Color(0xff076092)),
+              icon: const Icon(Icons.location_on, color: Constants.primaryColor),
               onPressed: () {
                 _openMapPage(context);
               },

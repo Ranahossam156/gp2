@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gp2/src/common_widgets/gradient_divider.dart';
-import 'package:intl/intl.dart'; // Import the intl package for time formatting
+import 'package:intl/intl.dart';
+
+import '../../constants.dart'; // Import the intl package for time formatting
 
 class TimePickerTextField extends StatefulWidget {
+  const TimePickerTextField({super.key});
+
   @override
   _TimePickerTextFieldState createState() => _TimePickerTextFieldState();
 }
@@ -17,10 +21,10 @@ class _TimePickerTextFieldState extends State<TimePickerTextField> {
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(primary: const Color(0xff076092)),
-            buttonTheme: ButtonThemeData(
+            colorScheme: const ColorScheme.light(primary: Constants.primaryColor),
+            buttonTheme: const ButtonThemeData(
               textTheme: ButtonTextTheme.primary,
-              colorScheme: ColorScheme.light(primary: const Color(0xff076092)),
+              colorScheme: ColorScheme.light(primary: Constants.primaryColor),
             ),
           ),
           child: child!,
@@ -52,10 +56,10 @@ class _TimePickerTextFieldState extends State<TimePickerTextField> {
           decoration: InputDecoration(
             labelText: 'Select Time',
             border: InputBorder.none,
-            labelStyle: const TextStyle(color: Color(0xff076092)),
+            labelStyle: const TextStyle(color: Constants.primaryColor),
             //contentPadding: padding,
             suffixIcon: IconButton(
-              icon: const Icon(Icons.access_time, color: Color(0xff076092)),
+              icon: const Icon(Icons.access_time, color: Constants.primaryColor),
               onPressed: () {
                 _selectTime(context);
               },
