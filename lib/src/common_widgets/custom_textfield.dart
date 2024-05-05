@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 class CustomTextFormField extends StatelessWidget {
   final String labelText;
   final bool obscureText;
-  final String? Function(String?)? validator; // Update the type here
+  //final String? Function(String?)? validator; // Update the type here
   final TextEditingController controller;
   final TextInputType keyboardType;
+  final FormFieldValidator<String>? validator;
+
 
   const CustomTextFormField({
     super.key,
@@ -39,6 +41,7 @@ class CustomTextFormField extends StatelessWidget {
           contentPadding: const EdgeInsets.only(bottom: 4),
           border: InputBorder.none,
         ),
+        autovalidateMode: AutovalidateMode.onUserInteraction,
       ),
     );
   }

@@ -77,7 +77,7 @@ class OTPScreen extends StatelessWidget {
                           height: 14,
                         ),
                         OtpTextField(
-                          numberOfFields: 5,
+                          numberOfFields: 6,
                           borderColor: const Color(0xff076092),
                           cursorColor: const Color(0xff076092),
                           focusedBorderColor: const Color(0xff076092),
@@ -89,6 +89,7 @@ class OTPScreen extends StatelessWidget {
                           filled: true,
                           onCodeChanged: (String code) {},
                           onSubmit: (code) {
+
                             print("OTP is => $code");
                           },
                         ),
