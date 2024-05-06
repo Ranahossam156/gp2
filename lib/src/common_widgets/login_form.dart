@@ -2,9 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:gp2/config.dart';
-import 'package:gp2/misc/validators.dart';
-import 'package:gp2/services/api_service.dart';
 import 'package:gp2/src/common_widgets/custom_button.dart';
 import 'package:gp2/src/common_widgets/custom_textfield.dart';
 import 'package:http/http.dart'as http;
@@ -54,28 +51,27 @@ class _LoginFormState extends State<LoginForm> {
       setState(() {
         isLoading = true;
       });
-      var hearders ={"Content-Type": "text/plain",};
+      var hearders ={"Content-Type": "application/json",};
 
-      var url = Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.authEndPoints.register);
+      var url = Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.authEndPoints.login);
       Map body = {
         'email': emailController.text,
         'password': passwordController.text,
+        //'name':'name',
       };
 
       http.Response response = await http.post(url,body: jsonEncode(body),headers: hearders);
-      if(response.statusCode==201){
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+      if(response.statusCode >=200 && response.statusCode <= 300){
         print(response.body);
         final json = jsonDecode(response.body);
-        if(json['code']==0){
-          var token=json['data']['user']['token'];
+          var token=json['token'];
           final SharedPreferences? prefs=await _prefs;
           await prefs?.setString('token', token);
           Get.off(ForecastingScreen());
         }
-        else if(json['code']==1){
-          throw jsonDecode(response.body)['message'];
-        }
-      }else{
+      else{
         throw jsonDecode(response.body)['message']??"unKnown error occurred";
       }
       print('Response Status Code: ${response.statusCode}');
@@ -168,59 +164,20 @@ class _LoginFormState extends State<LoginForm> {
                   onTap: () {
                     if (validateAndSave()) {
                       login();
-                      //isApiCallProcess = true;
-                      // Your API call logic here...
                     }
-                    //   if (validateAndSave()) {
-                    //     setState(() {
-                    //       isApiCallProcess = true;
-                    //     });
-
-                    //     String email = emailController.text;
-                    //     String password = passwordController.text;
-
-                    //     LoginRequestModel model =
-                    //         LoginRequestModel(email: email, password: password);
-
-                    //     APIService.login(model).then(
-                    //       (response) {
-                    //         setState(() {
-                    //           isApiCallProcess = false;
-                    //         });
-
-                    //         if (response) {
-                    //           Navigator.pushNamedAndRemoveUntil(
-                    //             context,
-                    //             '/home',
-                    //             (route) => false,
-                    //           );
-                    //         } else {
-                    //           FormHelper.showSimpleAlertDialog(
-                    //             context,
-                    //             Config.appName,
-                    //             "Invalid Username/Password !!",
-                    //             "OK",
-                    //             () {
-                    //               Navigator.of(context).pop();
-                    //             },
-                    //           );
-                    //         }
-                    //       },
-                    //     );
-                    //   }
                   },
                   text: 'Sign in'),
             ),
             const SizedBox(
-              height: 14,
+              height: 30,
             ),
-            const Text(
-              'Sign in with google account?',
-              style: TextStyle(color: Colors.white, fontSize: 14),
-            ),
-            const SizedBox(
-              height: 60,
-            ),
+            // const Text(
+            //   'Sign in with google account?',
+            //   style: TextStyle(color: Colors.white, fontSize: 14),
+            // ),
+            // const SizedBox(
+            //   height: 60,
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

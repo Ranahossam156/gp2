@@ -16,7 +16,7 @@ class ForcastingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        home: RegisterScreen(),//ForecastingScreen() //SplashScreen() //LoginScreen(),
+        home: LoginScreen(),//ForecastingScreen() //SplashScreen() //LoginScreen(),
         );
   }
 }

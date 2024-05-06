@@ -137,14 +137,14 @@ class _RegisterFormState extends State<RegisterForm> {
   //      // Handle error
   //    }
   //  }
+
    Future<void> register() async {
      try {
-       setState(() {
-         isLoading = true;
-       });
-
+       // setState(() {
+       //   isLoading = true;
+       // });
+       var headers={'Content-Type':'application/json'};
        var url = Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.authEndPoints.register);
-       print('{$url}');
        Map body = {
          'name': nameController.text,
          'email': emailController.text,
@@ -153,21 +153,17 @@ class _RegisterFormState extends State<RegisterForm> {
          'address':addressController.text,
        };
 
-       http.Response response = await http.post(url,body: jsonEncode(body));
-       if(response.statusCode==201){
+       http.Response response = await http.post(url,body: jsonEncode(body),headers:headers);
+       if(response.statusCode >=200 && response.statusCode <= 300){
          print(response.body);
          final json = jsonDecode(response.body);
-         if(json['code']==0){
            var token=json['data']['user']['token'];
-           final SharedPreferences? prefs=await _prefs;
+           print(token);
+           final SharedPreferences? prefs = await _prefs;
            await prefs?.setString('token', token);
            Get.off(LoginScreen());
-         }
-         else if(json['code']==1){
-           throw jsonDecode(response.body)['message'];
-         }
        }else{
-         throw jsonDecode(response.body)['message']??"unKnown error occurred";
+         throw jsonDecode(response.body)['message']??"Unknown Error Occurred";
        }
        print('Response Status Code: ${response.statusCode}');
        print('Response Body: ${response.body}');
@@ -175,8 +171,10 @@ class _RegisterFormState extends State<RegisterForm> {
      }
      catch(error){
        Get.back();
-       showDialog(context: Get.context!, builder: (contex){
-         return SimpleDialog(title: Text('Error'),
+       showDialog(context: Get.context!,
+        builder: (contex){
+         return SimpleDialog(
+           title: Text('Error'),
            contentPadding: EdgeInsets.all(20),
            children: [Text(error.toString())],
          );
@@ -225,21 +223,6 @@ class _RegisterFormState extends State<RegisterForm> {
 
               },
               controller: nameController,
-              keyboardType: TextInputType.text,
-            ),
-            const GradientDivider(),
-            const SizedBox(
-              height: 14,
-            ),
-            CustomTextFormField(
-              labelText: 'address',
-              validator:  (value) {
-                if (value == null || value.isEmpty) {
-                  return 'please enter your address';
-                }
-
-              },
-              controller: addressController,
               keyboardType: TextInputType.text,
             ),
             const GradientDivider(),
@@ -302,8 +285,24 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
             const GradientDivider(),
             const SizedBox(
+              height: 14,
+            ),
+            CustomTextFormField(
+              labelText: 'address',
+              validator:  (value) {
+                if (value == null || value.isEmpty) {
+                  return 'please enter your address';
+                }
+
+              },
+              controller: addressController,
+              keyboardType: TextInputType.text,
+            ),
+            const GradientDivider(),
+            const SizedBox(
               height: 40,
             ),
+
         // isLoading
         //     ? const CircularProgressIndicator(color:Color(0xff1FDEF5) ,strokeWidth : 4.0,):
             SizedBox(
@@ -319,23 +318,31 @@ class _RegisterFormState extends State<RegisterForm> {
                 text: 'Sign up',
               ),
             ),
-              // CustomButton(
-              //     onTap: () {
-              //       if (validateAndSave()) {
-              //         register();
-              //           // Navigator.push(
-              //
-              //           //   context,
-              //           //   MaterialPageRoute(
-              //           //     builder: (context) => const LoginScreen(),
-              //           //   ),
-              //           // );
-              //           //isApiCallProcess = true;
-              //         // Your API call logic here...
-              //       }
-              //     },
-              //     text: 'Sign up'),
-           // ),
+            const SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Already have an account?  ',
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()),
+                    );
+                  },
+                  child: const Text(
+                    'Sign in',
+                    style: TextStyle(color: Color(0xff1FDEF5), fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
