@@ -1,10 +1,58 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:gp2/src/common_widgets/custom_button.dart';
+import 'package:gp2/src/features/authentication/screens/reset_password_screen.dart';
+
+import '../utils/api_endpoints.dart';
+import 'package:http/http.dart'as http;
 
 class OTPScreen extends StatelessWidget {
-  const OTPScreen({super.key});
+  final String email;
+  const OTPScreen({super.key, required this.email});
 
+
+  Future<void> verifyCode(var code) async {
+    try {
+      var hearders ={"Content-Type": "application/json",};
+
+      var url = Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.authEndPoints.verifyCode);
+      Map body = {
+        'code': code,
+        //'name':'name',
+      };
+
+      http.Response response = await http.post(url,body: jsonEncode(body),headers: hearders);
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+      if(response.statusCode >=200 && response.statusCode <= 300){
+        print(response.body);
+        final json = jsonDecode(response.body);
+        // var token=json['token'];
+        // final SharedPreferences? prefs=await _prefs;
+        // await prefs?.setString('token', token);
+        Get.off(ResetPasswordScreen(email: email));
+      }
+      else{
+        throw jsonDecode(response.body)['message']??"unKnown error occurred";
+      }
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+    }
+    catch(error){
+      Get.back();
+      showDialog(context: Get.context!, builder: (contex){
+        return SimpleDialog(title: Text('Error'),
+          contentPadding: EdgeInsets.all(20),
+          children: [Text(error.toString())],
+        );
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +114,7 @@ class OTPScreen extends StatelessWidget {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                            right: MediaQuery.of(context).size.height * 0.15,
+                            right: MediaQuery.of(context).size.height * 0.17,
                           ),
                           child: const Text(
                             'Confirmation code',
@@ -81,7 +129,7 @@ class OTPScreen extends StatelessWidget {
                           borderColor: const Color(0xff076092),
                           cursorColor: const Color(0xff076092),
                           focusedBorderColor: const Color(0xff076092),
-                          margin: const EdgeInsets.only(right: 16.0),
+                          margin: const EdgeInsets.only(right: 10.0),
                           textStyle: const TextStyle(
                               color: Color(0xff076092), fontSize: 18),
                           fillColor: Colors.white,
@@ -89,15 +137,17 @@ class OTPScreen extends StatelessWidget {
                           filled: true,
                           onCodeChanged: (String code) {},
                           onSubmit: (code) {
-
+                            verifyCode( code);
                             print("OTP is => $code");
+
                           },
                         ),
                         const SizedBox(
                           height: 32,
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                          },
                           child: const Text(
                             'Resend in 50 seconds',
                             style: TextStyle(color: Colors.white),

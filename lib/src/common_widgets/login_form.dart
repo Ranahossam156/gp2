@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gp2/src/common_widgets/custom_button.dart';
 import 'package:gp2/src/common_widgets/custom_textfield.dart';
+import 'package:gp2/src/features/authentication/screens/forget%20_password_screen.dart';
 import 'package:http/http.dart'as http;
 import 'package:gp2/src/common_widgets/gradient_divider.dart';
 import 'package:gp2/src/features/authentication/screens/forcasting_screen.dart';
@@ -135,7 +136,7 @@ class _LoginFormState extends State<LoginForm> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const OTPScreen()),
+                          builder: (context) => ForgetPasswordScreen()),
                     );
                   },
                   style: TextButton.styleFrom(

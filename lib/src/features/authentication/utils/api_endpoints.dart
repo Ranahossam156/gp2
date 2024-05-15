@@ -7,5 +7,7 @@ class _AuthEndPoints {
   final String register='register';
   final String login = 'login';
   final String forget = 'forgot';
+  final String verifyCode= 'verify-code';
+  final String resetPass='reset-Pass';
 
 }
